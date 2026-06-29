@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>The Pattern Edge — Human Patterns</title>
+<meta name="description" content="Most chase events. I map the hidden structures that generate them. Psychology · Society · Power · Decisions. Anonymous. Unfiltered."/>
+<meta property="og:title" content="The Pattern Edge"/>
+<meta property="og:description" content="Most chase events. I map the hidden structures that generate them."/>
+<meta name="theme-color" content="#080810"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════════ */
+:root {
+  --ink:        #06060F;
+  --deep:       #0B0B18;
+  --surface:    #10101E;
+  --raised:     #181828;
+  --line:       #20203A;
+  --dim:        #2C2C50;
+  --muted:      #6B6B9A;   /* raised — passes AA on dark bg */
+  --mid:        #9090C0;   /* raised from 7070A8 */
+  --soft:       #C0C0E0;   /* raised from A0A0CC — clear body text */
+  --light:      #E0E0F4;   /* near-white for headings */
+  --white:      #F4F4FC;   /* pure heading white */
+  --glow:       #7B74FF;   /* slightly lighter violet — more legible */
+  --glow-soft:  rgba(123,116,255,0.13);
+  --glow-mist:  rgba(123,116,255,0.06);
+  --gold:       #FFD700;
+  --gold-soft:  rgba(255,215,0,0.08);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+
+body{
+  background:var(--ink);
+  color:var(--soft);
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-weight:400;
+  line-height:1.7;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* ═══════════════════════════════════════════
+   AMBIENT LIGHTING LAYER
+═══════════════════════════════════════════ */
+.ambient{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  overflow:hidden;
+}
+.ambient-orb{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(120px);
+  opacity:0.18;
+}
+.orb-1{
+  width:700px;height:700px;
+  background:var(--glow);
+  top:-200px;left:-200px;
+  animation:drift1 18s ease-in-out infinite alternate;
+}
+.orb-2{
+  width:500px;height:500px;
+  background:#9B59B6;
+  bottom:-150px;right:-100px;
+  animation:drift2 22s ease-in-out infinite alternate;
+}
+.orb-3{
+  width:300px;height:300px;
+  background:#2980B9;
+  top:40%;left:60%;
+  opacity:0.10;
+  animation:drift3 28s ease-in-out infinite alternate;
+}
+@keyframes drift1{to{transform:translate(60px,80px)}}
+@keyframes drift2{to{transform:translate(-50px,-60px)}}
+@keyframes drift3{to{transform:translate(-80px,40px)}}
+
+/* Fine dot grid */
+.grid-bg{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  background-image:radial-gradient(circle,var(--dim) 1px,transparent 1px);
+  background-size:40px 40px;
+  opacity:0.4;
+}
+
+/* ═══════════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════════ */
+.container{
+  position:relative;
+  z-index:2;
+  max-width:1100px;
+  margin:0 auto;
+  padding:0 40px;
+}
+@media(max-width:640px){.container{padding:0 20px}}
+
+/* ═══════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════ */
+nav{
+  position:fixed;
+  top:0;left:0;right:0;
+  z-index:200;
+  height:64px;
+  background:rgba(8,8,16,0.82);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--line);
+  transition:background 0.3s;
+}
+nav.scrolled{
+  background:rgba(8,8,16,0.97);
+  box-shadow:0 1px 40px rgba(108,99,255,0.1);
+}
+.nav-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  height:64px;
+  max-width:1100px;
+  margin:0 auto;
+  padding:0 40px;
+}
+@media(max-width:640px){.nav-inner{padding:0 20px}}
+
+.nav-logo{
+  font-family:'Fraunces',serif;
+  font-weight:900;
+  font-size:1.05rem;
+  color:var(--white);
+  text-decoration:none;
+  letter-spacing:-0.01em;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.logo-dot{
+  display:inline-block;
+  width:7px;height:7px;
+  background:var(--glow);
+  border-radius:50%;
+  box-shadow:0 0 8px var(--glow);
+  flex-shrink:0;
+}
+
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:36px;
+  list-style:none;
+}
+.nav-links a{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:0.82rem;
+  font-weight:500;
+  letter-spacing:0.03em;
+  color:var(--mid);
+  text-decoration:none;
+  transition:color 0.2s;
+}
+.nav-links a:hover{color:var(--white)}
+.nav-links a.active{color:var(--glow)}
+
+.nav-cta{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-weight:700;
+  font-size:0.82rem;
+  letter-spacing:0.03em;
+  background:var(--glow);
+  color:#fff;
+  padding:9px 20px;
+  border-radius:4px;
+  text-decoration:none;
+  transition:opacity 0.2s,box-shadow 0.2s;
+  box-shadow:0 0 20px rgba(123,116,255,0.3);
+  white-space:nowrap;
+}
+.nav-cta:hover{opacity:0.85;box-shadow:0 0 32px rgba(123,116,255,0.5)}
+
+/* Hamburger */
+.hamburger{
+  display:none;
+  flex-direction:column;
+  gap:5px;
+  cursor:pointer;
+  padding:4px;
+  background:none;
+  border:none;
+}
+.hamburger span{
+  display:block;
+  width:22px;height:2px;
+  background:var(--soft);
+  transition:transform 0.3s,opacity 0.3s;
+  border-radius:2px;
+}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+.mobile-menu{
+  display:none;
+  position:fixed;
+  top:64px;left:0;right:0;
+  background:rgba(8,8,16,0.98);
+  border-bottom:1px solid var(--line);
+  z-index:199;
+  padding:24px 20px 32px;
+  flex-direction:column;
+  gap:4px;
+}
+.mobile-menu.open{display:flex}
+.mobile-menu a{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:0.92rem;
+  font-weight:500;
+  letter-spacing:0.03em;
+  text-transform:uppercase;
+  color:var(--mid);
+  text-decoration:none;
+  padding:14px 0;
+  border-bottom:1px solid var(--line);
+  transition:color 0.2s;
+}
+.mobile-menu a:hover{color:var(--white)}
+.mobile-menu .mob-cta{
+  margin-top:16px;
+  display:inline-block;
+  background:var(--glow);
+  color:#fff;
+  padding:14px 28px;
+  border-radius:4px;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-weight:700;
+  font-size:0.92rem;
+  text-align:center;
+}
+
+@media(max-width:820px){
+  .nav-links,.nav-cta{display:none}
+  .hamburger{display:flex}
+}
+
+/* ═══════════════════════════════════════════
+   SECTIONS — shared
+═══════════════════════════════════════════ */
+section{position:relative;z-index:2}
+
+.section-eyebrow{
+  font-family:'DM Mono',monospace;
+  font-size:0.72rem;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:var(--glow);
+  margin-bottom:20px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.section-eyebrow::before{
+  content:'';
+  display:block;
+  width:28px;height:1px;
+  background:var(--glow);
+  flex-shrink:0;
+}
+
+.section-title{
+  font-family:'Fraunces',serif;
+  font-weight:900;
+  letter-spacing:-0.025em;
+  color:var(--white);
+  line-height:1.05;
+}
+
+.divider-line{
+  border:none;
+  border-top:1px solid var(--line);
+  position:relative;
+  z-index:2;
+}
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+#home{
+  min-height:100svh;
+  display:flex;
+  align-items:center;
+  padding:120px 0 100px;
+}
+.hero-layout{
+  display:grid;
+  grid-template-columns:1fr 380px;
+  gap:80px;
+  align-items:center;
+}
+@media(max-width:900px){
+  .hero-layout{grid-template-columns:1fr;gap:60px}
+  .hero-card{display:none}
+}
+
+.hero-eyebrow{
+  font-family:'DM Mono',monospace;
+  font-size:0.72rem;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:var(--glow);
+  margin-bottom:28px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  opacity:0;
+  animation:fadeUp 0.6s 0.1s ease forwards;
+}
+.hero-eyebrow::before{
+  content:'';display:block;
+  width:32px;height:1px;
+  background:var(--glow);
+}
+.status-dot{
+  display:inline-block;
+  width:6px;height:6px;
+  background:#2ECC71;
+  border-radius:50%;
+  box-shadow:0 0 6px #2ECC71;
+  animation:pulse-green 2s infinite;
+}
+@keyframes pulse-green{0%,100%{opacity:1}50%{opacity:0.5}}
+
+.hero-h1{
+  font-family:'Fraunces',serif;
+  font-weight:900;
+  font-size:clamp(3rem,6.5vw,6rem);
+  line-height:1.0;
+  letter-spacing:-0.03em;
+  color:var(--white);
+  margin-bottom:32px;
+  opacity:0;
+  animation:fadeUp 0.7s 0.2s ease forwards;
+}
+.hero-h1 .accent{
+  color:transparent;
+  -webkit-text-stroke:1.5px var(--glow);
+  display:inline-block;
+}
+.hero-h1 .lit{
+  color:var(--white);
+  text-shadow:0 0 40px rgba(123,116,255,0.6),0 0 80px rgba(123,116,255,0.2);
+}
+
+.hero-sub{
+  font-size:1.1rem;
+  font-weight:400;
+  color:var(--soft);
+  max-width:500px;
+  line-height:1.8;
+  margin-bottom:44px;
+  opacity:0;
+  animation:fadeUp 0.7s 0.32s ease forwards;
+}
+.hero-sub strong{color:var(--white);font-weight:600}
+
+.hero-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:48px;
+  opacity:0;
+  animation:fadeUp 0.7s 0.42s ease forwards;
+}
+.tag{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:0.75rem;
+  font-weight:600;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  color:var(--mid);
+  border:1px solid var(--dim);
+  padding:6px 16px;
+  border-radius:100px;
+  transition:all 0.2s;
+  background:var(--glow-mist);
+}
+.tag:hover{color:var(--glow);border-color:var(--glow);background:var(--glow-soft)}
+
+.hero-actions{
+  display:flex;
+  gap:16px;
+  flex-wrap:wrap;
+  align-items:center;
+  opacity:0;
+  animation:fadeUp 0.7s 0.52s ease forwards;
+}
+.btn-primary{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  background:var(--glow);
+  color:#fff;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-weight:700;
+  font-size:0.92rem;
+  letter-spacing:0.02em;
+  padding:15px 32px;
+  border-radius:4px;
+  text-decoration:none;
+  transition:all 0.2s;
+  box-shadow:0 0 24px rgba(123,116,255,0.35);
+  border:none;
+  cursor:pointer;
+}
+.btn-primary:hover{opacity:0.88;box-shadow:0 0 40px rgba(123,116,255,0.55);transform:translateY(-1px)}
+.btn-secondary{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  color:var(--mid);
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-weight:500;
+  font-size:0.88rem;
+  letter-spacing:0.02em;
+  text-decoration:none;
+  padding:15px 0;
+  transition:color 0.2s;
+  background:none;
+  border:none;
+  cursor:pointer;
+}
+.btn-secondary:hover{color:var(--white)}
+.btn-secondary svg{transition:transform 0.2s}
+.btn-secondary:hover svg{transform:translateX(3px)}
+
+/* Hero card */
+.hero-card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:36px;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 0 60px rgba(108,99,255,0.08),inset 0 1px 0 rgba(255,255,255,0.04);
+  opacity:0;
+  animation:fadeUp 0.8s 0.4s ease forwards;
+}
+.hero-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg,transparent,var(--glow),transparent);
+}
+.card-label{
+  font-family:'DM Mono',monospace;
+  font-size:0.62rem;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:28px;
+}
+.card-stat{
+  margin-bottom:24px;
+}
+.card-stat-num{
+  font-family:'Fraunces',serif;
+  font-weight:900;
+  font-size:2.4rem;
+  color:var(--white);
+  line-height:1;
+  margin-bottom:4px;
+}
+.card-stat-num span{color:var(--glow)}
+.card-stat-label{
+  font-size:0.82rem;
+  font-weight:400;
+  color:var(--mid);
+  letter-spacing:0.02em;
+}
+.card-divider{
+  border:none;
+  border-top:1px solid var(--line);
+  margin:24px 0;
+}
+.card-pillars{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.card-pillar{
+  background:var(--raised);
+  border:1px solid var(--dim);
+  border-radius:6px;
+  padding:12px 14px;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:0.72rem;
+  font-weight:600;
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+  color:var(--soft);
+  text-align:center;
+  transition:all 0.2s;
+}
+.card-pillar:hover{border-color:var(--glow);color:var(--glow);background:var(--glow-soft)}
+
+/* ═══════════════════════════════════════════
+   ABOUT
+═══════════════════════════════════════════ */
+#about{padding:120px 0}
+
+.about-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:80px;
+  align-items:start;
+  margin-top:60px;
+}
+@media(max-width:820px){.about-grid{grid-template-columns:1fr;gap:48px}}
+
+.about-title{
+  font-size:clamp(2rem,4vw,3.2rem);
+  margin-bottom:28px;
+}
+.about-body{
+  font-size:1rem;
+  font-weight:400;
+  color:var(--soft);
+  line-height:1.85;
+  margin-bottom:20px;
+}
+.about-body strong{color:var(--white);font-weight:600}
+
+.about-values{
+  display:flex;
+  flex-direction:column;
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+  border-radius:8px;
+  overflow:hidden;
+}
+.value-row{
+  display:flex;
+  gap:20px;
+  align-items:flex-start;
+  background:var(--surface);
+  padding:24px 28px;
+  transition:background 0.2s;
+}
+.value-row:hover{background:var(--raised)}
+.value-icon{
+  width:36px;height:36px;
+  flex-shrink:0;
+  background:var(--glow-soft);
+  border:1px solid var(--dim);
+  border-radius:6px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1rem;
+  margin-top:2px;
+}
+.value-content h4{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-weight:700;
+  font-size:0.96rem;
+  color:var(--white);
+  margin-bottom:5px;
+  letter-spacing:-0.01em;
+}
+.value-content p{
+  font-size:0.85rem;
+  font-weight:400;
+  color:var(--mid);
+  line-height:1.65;
+}
+
+/* Identity strip */
+.identity-strip{
+  margin-top:48px;
+  padding:32px 36px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:8px;
+  position:relative;
+  overflow:hidden;
+}
+.identity-strip::before{
+  content:'';
+  position:absolute;
+  left:0;top:0;bottom:0;
+  width:3px;
+  background:linear-gradient(180deg,var(--glow),transparent);
+}
+.identity-strip p{
+  font-family:'Fraunces',serif;
+  font-weight:700;
+  font-size:1.18rem;
+  color:var(--white);
+  line-height:1.6;
+  letter-spacing:-0.01em;
+}
+.identity-strip p em{
+  font-style:italic;
+  color:var(--glow);
+}
+.identity-strip .sig{
+  font-family:'DM Mono',monospace;
+  font-size:0.68rem;
+  color:var(--muted);
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  margin-top:16px;
+}
+
+/* ═══════════════════════════════════════════
+   MANIFESTO / PILLARS
+═══════════════════════════════════════════ */
+#pillars{padding:120px 0}
+
+.pillars-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+  border-radius:8px;
+  overflow:hidden;
+  margin-top:60px;
+}
+@media(max-width:640px){.pillars-grid{grid-template-columns:1fr}}
+
+.pillar-cell{
+  background:var(--surface);
+  padding:48px 40px;
+  transition:background 0.25s;
+  position:relative;
+  overflow:hidden;
+}
+.pillar-cell::after{
+  content:'';
+  position:absolute;
+  bottom:0;left:40px;right:40px;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--glow-soft),transparent);
+  opacity:0;
+  transition:opacity 0.3s;
+}
+.pillar-cell:hover{background:var(--raised)}
+.pillar-cell:hover::after{opacity:1}
+
+.pillar-icon{
+  font-size:1.6rem;
+  margin-bottom:20px;
+  display:block;
+}
+.pillar-name{
+  font-family:'Fraunces',serif;
+  font-weight:900;
+  font-size:1.5rem;
+  color:var(--white);
+  letter-spacing:-0.02em;
+  margin-bottom:14px;
+}
+.pillar-desc{
+  font-size:0.92rem;
+  font-weight:400;
+  color:var(--soft);
+  line-height:1.8;
+}
+.pillar-glow-tag{
+  display:inline-block;
+  margin-top:20px;
+  font-family:'DM Mono',monospace;
+  font-size:0.64rem;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--glow);
+  opacity:0.7;
+}
+
+/* ═══════════════════════════════════════════
+   QUOTE BREAK
+═══════════════════════════════════════════ */
+.quote-break{
+  padding:100px 0;
+  text-align:center;
+  position:relative;
+  z-index:2;
+}
+.quote-break blockquote{
+  font-family:'Fraunces',serif;
+  font-weight:700;
+  font-style:italic;
+  font-size:clamp(1.6rem,3.5vw,2.6rem);
+  color:var(--white);
+  line-height:1.35;
+  letter-spacing:-0.02em;
+  max-width:740px;
+  margin:0 auto 24px;
+}
+.quote-break blockquote em{
+  font-style:normal;
+  color:var(--glow);
+  text-shadow:0 0 30px rgba(123,116,255,0.4);
+}
+.quote-attr{
+  font-family:'DM Mono',monospace;
+  font-size:0.68rem;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+/* ═══════════════════════════════════════════
+   SUBSCRIBE
+═══════════════════════════════════════════ */
+#subscribe{padding:120px 0}
+
+.subscribe-box{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:72px 80px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 0 80px rgba(108,99,255,0.06),inset 0 1px 0 rgba(255,255,255,0.04);
+}
+@media(max-width:640px){.subscribe-box{padding:48px 28px}}
+.subscribe-box::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--glow),transparent);
+}
+/* radial glow under the box */
+.subscribe-box::after{
+  content:'';
+  position:absolute;
+  bottom:-100px;left:50%;
+  transform:translateX(-50%);
+  width:600px;height:400px;
+  background:radial-gradient(ellipse,rgba(108,99,255,0.12) 0%,transparent 70%);
+  pointer-events:none;
+}
+
+.subscribe-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:var(--glow-soft);
+  border:1px solid var(--dim);
+  border-radius:100px;
+  padding:6px 18px;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:0.72rem;
+  font-weight:600;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:var(--glow);
+  margin-bottom:32px;
+}
+
+.subscribe-title{
+  font-size:clamp(2rem,4.5vw,3.4rem);
+  margin-bottom:20px;
+}
+
+.subscribe-sub{
+  font-size:1.02rem;
+  font-weight:400;
+  color:var(--soft);
+  max-width:480px;
+  margin:0 auto 48px;
+  line-height:1.75;
+}
+
+.subscribe-form{
+  display:flex;
+  gap:12px;
+  max-width:500px;
+  margin:0 auto 20px;
+}
+@media(max-width:580px){.subscribe-form{flex-direction:column}}
+
+.subscribe-input{
+  flex:1;
+  background:var(--raised);
+  border:1px solid var(--dim);
+  border-radius:4px;
+  padding:15px 20px;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:0.95rem;
+  font-weight:400;
+  color:var(--white);
+  outline:none;
+  transition:border-color 0.2s,box-shadow 0.2s;
+}
+.subscribe-input::placeholder{color:var(--muted)}
+.subscribe-input:focus{
+  border-color:var(--glow);
+  box-shadow:0 0 0 3px rgba(123,116,255,0.15);
+}
+
+.subscribe-btn{
+  background:var(--glow);
+  color:#fff;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-weight:700;
+  font-size:0.92rem;
+  letter-spacing:0.02em;
+  padding:15px 28px;
+  border-radius:4px;
+  border:none;
+  cursor:pointer;
+  transition:all 0.2s;
+  white-space:nowrap;
+  box-shadow:0 0 20px rgba(123,116,255,0.3);
+}
+.subscribe-btn:hover{opacity:0.88;box-shadow:0 0 36px rgba(123,116,255,0.5)}
+
+.subscribe-note{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:0.78rem;
+  font-weight:400;
+  letter-spacing:0.02em;
+  color:var(--muted);
+}
+.subscribe-note a{color:var(--glow);text-decoration:none}
+
+/* Success state */
+.subscribe-success{
+  display:none;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:12px;
+  padding:20px 0;
+}
+.subscribe-success.visible{display:flex}
+.subscribe-form-wrap.hidden{display:none}
+.success-icon{
+  width:52px;height:52px;
+  background:rgba(46,204,113,0.12);
+  border:1px solid rgba(46,204,113,0.3);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.4rem;
+}
+.success-text{
+  font-family:'Fraunces',serif;
+  font-weight:700;
+  font-size:1.15rem;
+  color:var(--white);
+}
+.success-sub{
+  font-size:0.88rem;
+  font-weight:400;
+  color:var(--muted);
+}
+
+/* Social proof row */
+.social-proof{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:24px;
+  margin-top:48px;
+  flex-wrap:wrap;
+  position:relative;
+  z-index:1;
+}
+.proof-item{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:0.84rem;
+  font-weight:500;
+  color:var(--mid);
+}
+.proof-item svg{color:var(--glow);flex-shrink:0}
+.proof-sep{
+  width:1px;height:20px;
+  background:var(--dim);
+}
+@media(max-width:500px){.proof-sep{display:none}.social-proof{gap:16px}}
+
+/* ═══════════════════════════════════════════
+   FOLLOW CTA
+═══════════════════════════════════════════ */
+.follow-strip{
+  padding:80px 0;
+  position:relative;
+  z-index:2;
+}
+.follow-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:32px;
+  flex-wrap:wrap;
+}
+.follow-text h3{
+  font-family:'Fraunces',serif;
+  font-weight:900;
+  font-size:1.7rem;
+  color:var(--white);
+  letter-spacing:-0.025em;
+  margin-bottom:6px;
+}
+.follow-text p{
+  font-size:0.92rem;
+  font-weight:400;
+  color:var(--muted);
+}
+.x-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  background:var(--white);
+  color:var(--ink);
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-weight:800;
+  font-size:0.92rem;
+  letter-spacing:0.01em;
+  padding:15px 28px;
+  border-radius:4px;
+  text-decoration:none;
+  transition:all 0.2s;
+  white-space:nowrap;
+}
+.x-btn:hover{background:var(--light);transform:translateY(-1px)}
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+footer{
+  position:relative;
+  z-index:2;
+  border-top:1px solid var(--line);
+  padding:60px 0 40px;
+}
+.footer-top{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:48px;
+  margin-bottom:48px;
+}
+@media(max-width:820px){.footer-top{grid-template-columns:1fr;gap:36px}}
+
+.footer-brand p{
+  font-size:0.88rem;
+  font-weight:400;
+  color:var(--muted);
+  line-height:1.75;
+  margin-top:14px;
+  max-width:260px;
+}
+.footer-logo-txt{
+  font-family:'Fraunces',serif;
+  font-weight:900;
+  font-size:1.08rem;
+  color:var(--white);
+  letter-spacing:-0.01em;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.footer-col h5{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:0.7rem;
+  font-weight:700;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:20px;
+}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:12px}
+.footer-col ul a{
+  font-size:0.88rem;
+  font-weight:400;
+  color:var(--soft);
+  text-decoration:none;
+  transition:color 0.2s;
+}
+.footer-col ul a:hover{color:var(--glow)}
+
+.footer-bottom{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding-top:28px;
+  border-top:1px solid var(--line);
+  flex-wrap:wrap;
+  gap:12px;
+}
+.footer-copy{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:0.78rem;
+  font-weight:400;
+  letter-spacing:0.02em;
+  color:var(--muted);
+}
+.footer-anon{
+  font-family:'DM Mono',monospace;
+  font-size:0.68rem;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--dim);
+}
+
+/* ═══════════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════════ */
+.reveal{
+  opacity:0;
+  transform:translateY(28px);
+  transition:opacity 0.7s ease,transform 0.7s ease;
+}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ═══════════════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════════════ */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ═══════════════════════════════════════════
+   SELECTION & FOCUS
+═══════════════════════════════════════════ */
+::selection{background:var(--glow);color:#fff}
+:focus-visible{outline:2px solid var(--glow);outline-offset:3px}
+
+@media(prefers-reduced-motion:reduce){
+  .orb-1,.orb-2,.orb-3{animation:none}
+  .reveal{transition:none;opacity:1;transform:none}
+  .hero-inner>*{animation:none;opacity:1}
+}
+</style>
+</head>
+<body>
+
+<!-- AMBIENT LIGHTING -->
+<div class="ambient" aria-hidden="true">
+  <div class="ambient-orb orb-1"></div>
+  <div class="ambient-orb orb-2"></div>
+  <div class="ambient-orb orb-3"></div>
+</div>
+<div class="grid-bg" aria-hidden="true"></div>
+
+<!-- ═══ NAV ═══ -->
+<nav id="main-nav">
+  <div class="nav-inner">
+    <a href="#home" class="nav-logo">
+      <span class="logo-dot"></span>
+      The Pattern Edge
+    </a>
+    <ul class="nav-links">
+      <li><a href="#home" class="active" data-section="home">Home</a></li>
+      <li><a href="#about" data-section="about">About</a></li>
+      <li><a href="#pillars" data-section="pillars">Pillars</a></li>
+      <li><a href="#subscribe" data-section="subscribe">Subscribe</a></li>
+    </ul>
+    <a href="https://x.com/ThePatternEdge" target="_blank" rel="noopener" class="nav-cta">
+      Follow on X →
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#home" onclick="closeMobile()">Home</a>
+  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="#pillars" onclick="closeMobile()">Pillars</a>
+  <a href="#subscribe" onclick="closeMobile()">Subscribe</a>
+  <a href="https://x.com/ThePatternEdge" target="_blank" rel="noopener" class="mob-cta">Follow on X →</a>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section id="home">
+  <div class="container">
+    <div class="hero-layout">
+      <div class="hero-inner">
+        <p class="hero-eyebrow">
+          <span class="status-dot"></span>
+          Live · Unfiltered · Anonymous
+        </p>
+        <h1 class="hero-h1">
+          Most chase<br>
+          <span class="accent">events.</span><br>
+          I map what<br>
+          <span class="lit">generates</span><br>
+          them.
+        </h1>
+        <p class="hero-sub">
+          The hidden structures driving human behavior,
+          power, and decisions are <strong>hiding in plain sight.</strong>
+          This is where they surface.
+        </p>
+        <div class="hero-tags">
+          <span class="tag">Psychology</span>
+          <span class="tag">Society</span>
+          <span class="tag">Power</span>
+          <span class="tag">Decisions</span>
+        </div>
+        <div class="hero-actions">
+          <a href="#subscribe" class="btn-primary">
+            Join the Edge
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#about" class="btn-secondary">
+            What this is
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Stat card -->
+      <div class="hero-card">
+        <p class="card-label">// The Pattern Edge · Profile</p>
+        <div class="card-stat">
+          <div class="card-stat-num"><span>∞</span></div>
+          <div class="card-stat-label">Patterns beneath the surface</div>
+        </div>
+        <hr class="card-divider"/>
+        <div class="card-stat">
+          <div class="card-stat-num">100<span>%</span></div>
+          <div class="card-stat-label">Signal. Zero noise.</div>
+        </div>
+        <hr class="card-divider"/>
+        <div class="card-pillars">
+          <div class="card-pillar">Psychology</div>
+          <div class="card-pillar">Society</div>
+          <div class="card-pillar">Power</div>
+          <div class="card-pillar">Decisions</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider-line"/>
+
+<!-- ═══ ABOUT ═══ -->
+<section id="about">
+  <div class="container">
+    <p class="section-eyebrow reveal">About this account</p>
+    <div class="about-grid">
+      <div>
+        <h2 class="section-title about-title reveal">
+          A brand built<br>on seeing<br>
+          <span style="color:var(--glow)">what others miss.</span>
+        </h2>
+        <p class="about-body reveal">
+          The Pattern Edge exists because <strong>most public discourse is reactive.</strong>
+          People respond to what happens. They rarely ask what made it happen —
+          and almost never ask why it keeps happening.
+        </p>
+        <p class="about-body reveal">
+          This account maps the recurring structures beneath the surface:
+          the psychological levers, social mechanics, and power architectures
+          that shape <strong>everything from individual decisions to civilizational shifts.</strong>
+        </p>
+        <p class="about-body reveal">
+          Anonymous not for mystique — but because identity distorts signal.
+          When you don't know who is speaking, you engage with the <strong>idea itself.</strong>
+          That's the only honest way to do this work.
+        </p>
+        <div class="identity-strip reveal">
+          <p>
+            This is not a commentary account.<br>
+            This is a <em>mapping</em> account.<br>
+            The map changes how you see the territory — <em>permanently.</em>
+          </p>
+          <p class="sig">— The Pattern Edge · Est. 2024</p>
+        </div>
+      </div>
+      <div>
+        <div class="about-values reveal">
+          <div class="value-row">
+            <div class="value-icon">🔍</div>
+            <div class="value-content">
+              <h4>Depth over volume</h4>
+              <p>One post that reshapes how you see something beats a hundred reactions to news.</p>
+            </div>
+          </div>
+          <div class="value-row">
+            <div class="value-icon">⚡</div>
+            <div class="value-content">
+              <h4>Structures, not symptoms</h4>
+              <p>Events are the visible tip. The patterns generating them are what we study.</p>
+            </div>
+          </div>
+          <div class="value-row">
+            <div class="value-icon">🎭</div>
+            <div class="value-content">
+              <h4>Anonymous by design</h4>
+              <p>No identity. No brand ego. Just the work — and what it reveals.</p>
+            </div>
+          </div>
+          <div class="value-row">
+            <div class="value-icon">🧭</div>
+            <div class="value-content">
+              <h4>Unfiltered clarity</h4>
+              <p>No hedging. No softening for comfort. Pattern recognition is only useful if it's honest.</p>
+            </div>
+          </div>
+          <div class="value-row">
+            <div class="value-icon">♾️</div>
+            <div class="value-content">
+              <h4>Built to last</h4>
+              <p>Every piece should be as relevant in ten years as the day it was posted.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider-line"/>
+
+<!-- ═══ QUOTE BREAK ═══ -->
+<div class="quote-break reveal">
+  <div class="container">
+    <blockquote>
+      "The map is not the territory —<br>
+      but without a map,<br>
+      you are <em>already lost.</em>"
+    </blockquote>
+    <p class="quote-attr">// The Pattern Edge</p>
+  </div>
+</div>
+
+<hr class="divider-line"/>
+
+<!-- ═══ PILLARS ═══ -->
+<section id="pillars">
+  <div class="container">
+    <p class="section-eyebrow reveal">Four domains. One lens.</p>
+    <h2 class="section-title reveal" style="font-size:clamp(2rem,4vw,3rem);margin-top:12px">
+      What gets mapped
+    </h2>
+    <div class="pillars-grid reveal">
+      <div class="pillar-cell">
+        <span class="pillar-icon">🧠</span>
+        <div class="pillar-name">Psychology</div>
+        <p class="pillar-desc">
+          The hidden architectures of belief, bias, and behavior. Why people
+          act against their own interests. What actually drives decisions beneath
+          the rationalizations.
+        </p>
+        <span class="pillar-glow-tag">cognitive · behavioral · social</span>
+      </div>
+      <div class="pillar-cell">
+        <span class="pillar-icon">🌐</span>
+        <div class="pillar-name">Society</div>
+        <p class="pillar-desc">
+          How groups form, fracture, and reorganize around shared fictions.
+          The mechanics of consensus, narrative control, and the invisible
+          rules that govern collective behavior.
+        </p>
+        <span class="pillar-glow-tag">culture · narrative · institutions</span>
+      </div>
+      <div class="pillar-cell">
+        <span class="pillar-icon">♟️</span>
+        <div class="pillar-name">Power</div>
+        <p class="pillar-desc">
+          The grammar of influence — who acquires it, how it's maintained,
+          and why it ends. The patterns of dominance and submission that
+          repeat across every scale of human organization.
+        </p>
+        <span class="pillar-glow-tag">influence · hierarchy · control</span>
+      </div>
+      <div class="pillar-cell">
+        <span class="pillar-icon">⚖️</span>
+        <div class="pillar-name">Decisions</div>
+        <p class="pillar-desc">
+          Why humans choose what they choose — and what they systematically
+          miss when they do. The structural forces shaping individual and
+          collective choice at every level.
+        </p>
+        <span class="pillar-glow-tag">choice · risk · consequence</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider-line"/>
+
+<!-- ═══ SUBSCRIBE ═══ -->
+<section id="subscribe">
+  <div class="container">
+    <div class="subscribe-box reveal">
+      <span class="subscribe-badge">
+        <span class="status-dot"></span>
+        Free · No spam · Unsubscribe anytime
+      </span>
+      <h2 class="section-title subscribe-title reveal">
+        Get the patterns<br>delivered.
+      </h2>
+      <p class="subscribe-sub reveal">
+        The deepest threads, frameworks, and observations — direct to your inbox.
+        No noise. No filler. Just signal.
+      </p>
+
+      <div class="subscribe-form-wrap" id="subFormWrap">
+        <div class="subscribe-form">
+          <input
+            type="email"
+            class="subscribe-input"
+            id="emailInput"
+            placeholder="Enter your email address"
+            autocomplete="email"
+          />
+          <button class="subscribe-btn" onclick="handleSubscribe()">
+            Subscribe →
+          </button>
+        </div>
+        <p class="subscribe-note" style="margin-top:12px">
+          By subscribing you agree to receive occasional emails. Unsubscribe anytime.
+        </p>
+      </div>
+
+      <div class="subscribe-success" id="subSuccess">
+        <div class="success-icon">✓</div>
+        <div class="success-text">You're on the list.</div>
+        <div class="success-sub">Watch for the first dispatch in your inbox.</div>
+      </div>
+
+      <div class="social-proof">
+        <div class="proof-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          No spam, ever
+        </div>
+        <div class="proof-sep"></div>
+        <div class="proof-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          Timeless signal
+        </div>
+        <div class="proof-sep"></div>
+        <div class="proof-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Anonymous curator
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOLLOW STRIP ═══ -->
+<hr class="divider-line"/>
+<div class="follow-strip">
+  <div class="container">
+    <div class="follow-inner reveal">
+      <div class="follow-text">
+        <h3>Follow on X / Twitter</h3>
+        <p>Daily patterns. Unfiltered. Anonymous.</p>
+      </div>
+      <a href="https://x.com/ThePatternEdge" target="_blank" rel="noopener" class="x-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.259 5.63 5.905-5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        @ThePatternEdge
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CONNECT & SUPPORT ═══ -->
+<hr class="divider-line"/>
+<section id="connect" style="padding:100px 0;position:relative;z-index:2;">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:860px;margin:0 auto;">
+
+      <!-- WhatsApp Card -->
+      <div class="reveal" style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:44px 40px;position:relative;overflow:hidden;box-shadow:0 0 40px rgba(37,211,102,0.06);">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#25D366,transparent);"></div>
+        <div style="width:48px;height:48px;background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.25);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </div>
+        <h3 style="font-family:'Fraunces',serif;font-weight:900;font-size:1.4rem;color:var(--white);letter-spacing:-0.02em;margin-bottom:10px;">Chat on WhatsApp</h3>
+        <p style="font-size:0.9rem;color:var(--mid);line-height:1.7;margin-bottom:28px;">Questions, collaborations, or just want to discuss a pattern? Send a message directly.</p>
+        <a href="https://wa.me/254715273151" target="_blank" rel="noopener"
+          style="display:inline-flex;align-items:center;gap:10px;background:#25D366;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.88rem;padding:13px 24px;border-radius:6px;text-decoration:none;transition:all 0.2s;box-shadow:0 0 20px rgba(37,211,102,0.25);"
+          onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          +254 715 273 151
+        </a>
+      </div>
+
+      <!-- Buy Me a Token Card -->
+      <div class="reveal" style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:44px 40px;position:relative;overflow:hidden;box-shadow:0 0 40px rgba(123,116,255,0.06);">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--glow),transparent);"></div>
+        <div style="width:48px;height:48px;background:var(--glow-soft);border:1px solid var(--dim);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;font-size:1.4rem;">🪙</div>
+        <h3 style="font-family:'Fraunces',serif;font-weight:900;font-size:1.4rem;color:var(--white);letter-spacing:-0.02em;margin-bottom:10px;">Buy Me a Token</h3>
+        <p style="font-size:0.9rem;color:var(--mid);line-height:1.7;margin-bottom:8px;">If the patterns here have shifted how you see things — consider sending a small token of appreciation. As little as <strong style="color:var(--light);font-weight:600;">Ksh 100</strong> or whatever you can sacrifice.</p>
+        <p style="font-family:'DM Mono',monospace;font-size:0.78rem;color:var(--glow);letter-spacing:0.06em;margin-bottom:28px;">M-Pesa · Till / Send Money</p>
+
+        <!-- M-Pesa number display -->
+        <div style="background:var(--raised);border:1px solid var(--dim);border-radius:8px;padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:16px;">
+          <div>
+            <div style="font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">M-Pesa Number</div>
+            <div style="font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--white);letter-spacing:-0.01em;" id="mpesaNum">0715 273 151</div>
+          </div>
+          <button onclick="copyMpesa()" id="copyBtn"
+            style="background:var(--glow-soft);border:1px solid var(--dim);border-radius:6px;padding:10px 16px;color:var(--glow);font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:0.78rem;cursor:pointer;transition:all 0.2s;white-space:nowrap;">
+            Copy
+          </button>
+        </div>
+
+        <a href="https://wa.me/254715273151?text=Hey%2C%20just%20sent%20a%20token%20your%20way%20via%20M-Pesa%20%F0%9F%AA%99" target="_blank" rel="noopener"
+          style="display:inline-flex;align-items:center;gap:8px;color:var(--mid);font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;font-size:0.82rem;text-decoration:none;transition:color 0.2s;"
+          onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--mid)'">
+          Confirm via WhatsApp after sending →
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider-line"/>
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo-txt">
+          <span class="logo-dot"></span>
+          The Pattern Edge
+        </div>
+        <p>Mapping the hidden structures beneath human behavior, power, and decisions. Anonymous. Unfiltered. Built to last.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Navigate</h5>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#pillars">Pillars</a></li>
+          <li><a href="#subscribe">Subscribe</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Connect</h5>
+        <ul>
+          <li><a href="https://x.com/ThePatternEdge" target="_blank" rel="noopener">X / Twitter</a></li>
+          <li><a href="https://wa.me/254715273151" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a href="#subscribe">Newsletter</a></li>
+          <li><a href="#connect">Support the work</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2024 The Pattern Edge · All rights reserved</span>
+      <span class="footer-anon">Anonymous · Unfiltered · Permanent</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ── NAV scroll behavior ── */
+const nav = document.getElementById('main-nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 20);
+}, { passive: true });
+
+/* ── Active nav link ── */
+const sections = ['home','about','pillars','subscribe'];
+const navLinks = document.querySelectorAll('.nav-links a[data-section]');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(a => a.classList.remove('active'));
+      const active = document.querySelector(`.nav-links a[data-section="${e.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { threshold: 0.4 });
+sections.forEach(id => {
+  const el = document.getElementById(id);
+  if (el) observer.observe(el);
+});
+
+/* ── Hamburger ── */
+const ham = document.getElementById('hamburger');
+const mob = document.getElementById('mobile-menu');
+ham.addEventListener('click', () => {
+  ham.classList.toggle('open');
+  mob.classList.toggle('open');
+});
+function closeMobile() {
+  ham.classList.remove('open');
+  mob.classList.remove('open');
+}
+
+/* ── Scroll reveal ── */
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revealObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* ── Copy M-Pesa number ── */
+function copyMpesa() {
+  navigator.clipboard.writeText('0715273151').then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied ✓';
+    btn.style.background = 'rgba(37,211,102,0.12)';
+    btn.style.borderColor = 'rgba(37,211,102,0.3)';
+    btn.style.color = '#25D366';
+    setTimeout(() => {
+      btn.textContent = 'Copy';
+      btn.style.background = 'var(--glow-soft)';
+      btn.style.borderColor = 'var(--dim)';
+      btn.style.color = 'var(--glow)';
+    }, 2500);
+  });
+}
+
+function handleSubscribe() {
+  const input = document.getElementById('emailInput');
+  const val = input.value.trim();
+  const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRe.test(val)) {
+    input.style.borderColor = '#E74C3C';
+    input.style.boxShadow = '0 0 0 3px rgba(231,76,60,0.15)';
+    input.focus();
+    setTimeout(() => {
+      input.style.borderColor = '';
+      input.style.boxShadow = '';
+    }, 2000);
+    return;
+  }
+  document.getElementById('subFormWrap').classList.add('hidden');
+  document.getElementById('subSuccess').classList.add('visible');
+}
+document.getElementById('emailInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') handleSubscribe();
+});
+</script>
+</body>
+</html>
